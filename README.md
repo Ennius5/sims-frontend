@@ -95,10 +95,6 @@ src/
 
 ## Known Limitations / Backend Notes
 
-- **Course Offerings** has no role restriction at the backend route/policy level — any
-  authenticated user can technically create/edit/delete one via a direct API call. The
-  frontend hides those actions from non-admin/registrar roles as a UX decision, **not** as a
-  security boundary — the backend remains solely responsible for authorization.
 - The `/instructors` and `/users` endpoints were added to the backend during this project,
   specifically to support frontend dropdowns (instructor assignment on Course Offerings;
   linking a Student record to a User account).
