@@ -4,6 +4,7 @@ export interface CourseOffering {
   schedule: string
   room: string
   capacity: number
+  enrolled_count: number
   status: 'OPEN' | 'CLOSED' | 'CANCELLED'
   created_at: string
   updated_at: string

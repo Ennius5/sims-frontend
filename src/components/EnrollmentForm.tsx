@@ -5,20 +5,22 @@ import * as studentService from '../services/studentService'
 import * as courseOfferingService from '../services/courseOfferingService'
 import type { Student } from '../types/student'
 import type { CourseOffering } from '../types/courseOffering'
+import { SearchableSelect } from './SearchableSelect'
 
 interface EnrollmentFormProps {
   onSubmit: (data: EnrollmentCreateData) => Promise<void>
   onCancel: () => void
+  fixedOffering?: { id: number; label: string }
 }
 
-export function EnrollmentForm({ onSubmit, onCancel }: EnrollmentFormProps) {
+export function EnrollmentForm({ onSubmit, onCancel, fixedOffering }: EnrollmentFormProps) {
   const [students, setStudents] = useState<Student[]>([])
   const [offerings, setOfferings] = useState<CourseOffering[]>([])
   const [isLoadingOptions, setIsLoadingOptions] = useState(true)
 
   const [form, setForm] = useState<EnrollmentCreateData>({
     student_id: 0,
-    course_offering_id: 0,
+    course_offering_id: fixedOffering?.id ?? 0,
     enrollment_date: new Date().toISOString().slice(0, 10),
   })
   const [generalError, setGeneralError] = useState<string | null>(null)
@@ -26,16 +28,17 @@ export function EnrollmentForm({ onSubmit, onCancel }: EnrollmentFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
+
     Promise.all([
       studentService.listStudents({ status: 'ACTIVE', per_page: 100 }),
-      courseOfferingService.listCourseOfferings({ status: 'OPEN', per_page: 100 }),
+      fixedOffering ? Promise.resolve({ data: [] }) : courseOfferingService.listCourseOfferings({ status: 'OPEN', per_page: 100 }),
     ])
       .then(([studentRes, offeringRes]) => {
         setStudents(studentRes.data)
         setOfferings(offeringRes.data)
       })
       .finally(() => setIsLoadingOptions(false))
-  }, [])
+  }, [fixedOffering])
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -77,46 +80,48 @@ export function EnrollmentForm({ onSubmit, onCancel }: EnrollmentFormProps) {
       )}
 
       <div className="mb-4">
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="student_id" className="mb-1 block text-sm font-medium text-gray-700">
           Student <span className="text-red-500">*</span>
         </label>
-        <select
-          required
-          value={form.student_id || ''}
-          onChange={(e) => setForm((f) => ({ ...f, student_id: Number(e.target.value) }))}
-          className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
-        >
-          <option value="" disabled>Select a student…</option>
-          {students.map((s) => (
-            <option key={s.id} value={s.id}>{s.student_number} — {s.last_name}, {s.first_name}</option>
-          ))}
-        </select>
+        <SearchableSelect
+          id="student_id"
+          options={students.map((s) => ({ id: s.id, label: `${s.student_number} — ${s.last_name}, ${s.first_name}` }))}
+          value={form.student_id ? String(form.student_id) : ''}
+          onChange={(id) => setForm((f) => ({ ...f, student_id: id ? Number(id) : 0 }))}
+          placeholder="Search student…"
+        />
         {fieldErrors.student_id && <p className="mt-1 text-sm text-red-600">{fieldErrors.student_id[0]}</p>}
       </div>
 
-      <div className="mb-4">
-        <label className="mb-1 block text-sm font-medium text-gray-700">
-          Course Offering <span className="text-red-500">*</span>
-        </label>
-        <select
-          required
-          value={form.course_offering_id || ''}
-          onChange={(e) => setForm((f) => ({ ...f, course_offering_id: Number(e.target.value) }))}
-          className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
-        >
-          <option value="" disabled>Select an offering…</option>
-          {offerings.map((o) => (
-            <option key={o.id} value={o.id}>{o.course.course_code} — Section {o.section} ({o.schedule})</option>
-          ))}
-        </select>
-        {fieldErrors.course_offering_id && <p className="mt-1 text-sm text-red-600">{fieldErrors.course_offering_id[0]}</p>}
-      </div>
+      {fixedOffering ? (
+        <div className="mb-4">
+          <label className="mb-1 block text-sm font-medium text-gray-700">Course Offering</label>
+          <p className="rounded border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-700">
+            {fixedOffering.label}
+          </p>
+        </div>
+      ) : (
+        <div className="mb-4">
+          <label htmlFor="course_offering_id" className="mb-1 block text-sm font-medium text-gray-700">
+            Course Offering <span className="text-red-500">*</span>
+          </label>
+          <SearchableSelect
+            id="course_offering_id"
+            options={offerings.map((o) => ({ id: o.id, label: `${o.course.course_code} — Section ${o.section} (${o.schedule})` }))}
+            value={form.course_offering_id ? String(form.course_offering_id) : ''}
+            onChange={(id) => setForm((f) => ({ ...f, course_offering_id: id ? Number(id) : 0 }))}
+            placeholder="Search offering…"
+          />
+          {fieldErrors.course_offering_id && <p className="mt-1 text-sm text-red-600">{fieldErrors.course_offering_id[0]}</p>}
+        </div>
+      )}
 
       <div className="mb-6">
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="enrollment_date" className="mb-1 block text-sm font-medium text-gray-700">
           Enrollment Date <span className="text-red-500">*</span>
         </label>
         <input
+          id="enrollment_date"
           type="date"
           required
           value={form.enrollment_date}

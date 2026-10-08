@@ -6,13 +6,14 @@ interface Option {
 }
 
 interface SearchableSelectProps {
+  id?: string
   options: Option[]
   value: string
   onChange: (id: string) => void
   placeholder: string
 }
 
-export function SearchableSelect({ options, value, onChange, placeholder }: SearchableSelectProps) {
+export function SearchableSelect({ id, options, value, onChange, placeholder }: SearchableSelectProps) {
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -36,6 +37,7 @@ export function SearchableSelect({ options, value, onChange, placeholder }: Sear
   return (
     <div ref={containerRef} className="relative w-64">
       <input
+        id={id}
         placeholder={placeholder}
         value={isOpen ? query : (selected?.label ?? '')}
         onFocus={() => { setIsOpen(true); setQuery('') }}

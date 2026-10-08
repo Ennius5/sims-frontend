@@ -57,8 +57,9 @@ export function GradeForm({ enrollmentId, studentLabel, offeringLabel, initialDa
 
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Midterm Grade</label>
+          <label htmlFor= "midterm_grade" className="mb-1 block text-sm font-medium text-gray-700">Midterm Grade</label>
           <input
+            id= "midterm_grade"
             type="number"
             step="0.01"
             min={1}
@@ -70,8 +71,9 @@ export function GradeForm({ enrollmentId, studentLabel, offeringLabel, initialDa
           {fieldErrors.midterm_grade && <p className="mt-1 text-sm text-red-600">{fieldErrors.midterm_grade[0]}</p>}
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Final Grade</label>
+          <label htmlFor="final_grade"className="mb-1 block text-sm font-medium text-gray-700">Final Grade</label>
           <input
+            id="final_grade"
             type="number"
             step="0.01"
             min={1}
@@ -85,8 +87,9 @@ export function GradeForm({ enrollmentId, studentLabel, offeringLabel, initialDa
       </div>
 
       <div className="mb-6">
-        <label className="mb-1 block text-sm font-medium text-gray-700">Remarks</label>
+        <label htmlFor="remarks" className="mb-1 block text-sm font-medium text-gray-700">Remarks</label>
         <input
+          id="remarks"
           value={form.remarks}
           onChange={(e) => setForm((f) => ({ ...f, remarks: e.target.value }))}
           placeholder="PASSED, FAILED, etc."

@@ -5,6 +5,11 @@ import type { CourseOffering } from '../types/courseOffering'
 import type { OfferingEnrolledStudent } from '../types/courseOfferingStudent'
 import { Pagination } from '../components/Pagination'
 import { getErrorState, type ErrorState } from '../utils/errorState'
+import { useAuth } from '../hooks/useAuth'
+import { EnrollmentForm } from '../components/EnrollmentForm'
+import * as enrollmentService from '../services/enrollmentService'
+import type { EnrollmentCreateData } from '../types/enrollment'
+
 
 export default function CourseOfferingStudentsPage() {
   const { id } = useParams<{ id: string }>()
@@ -16,11 +21,18 @@ export default function CourseOfferingStudentsPage() {
   const [meta, setMeta] = useState<{ current_page: number; last_page: number; total: number; per_page: number } | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [errorState, setErrorState] = useState<ErrorState | null>(null)
+  const { user } = useAuth()
+const canManage = user?.roles.some((r) => ['administrator', 'registrar'].includes(r)) ?? false
+const [isAdding, setIsAdding] = useState(false)
 
   useEffect(() => {
     courseOfferingService.getCourseOffering(offeringId).then(setOffering).catch(() => {})
   }, [offeringId])
-
+  async function handleAddStudent(data: EnrollmentCreateData) {
+    await enrollmentService.createEnrollment(data)
+    setIsAdding(false)
+    fetchStudents()
+  }
   const fetchStudents = useCallback(async () => {
     setIsLoading(true)
     setErrorState(null)
@@ -50,15 +62,37 @@ export default function CourseOfferingStudentsPage() {
         ← Back to Course Offerings
       </Link>
 
-      <h1 className="mb-1 text-lg font-semibold text-gray-900">
-        {offering ? `${offering.course.course_code} — Section ${offering.section}` : 'Enrolled Students'}
-      </h1>
+
+      <div className="mb-1 flex items-center justify-between">
+        <h1 className="text-lg font-semibold text-gray-900">
+          {offering ? `${offering.course.course_code} — Section ${offering.section}` : 'Enrolled Students'}
+        </h1>
+        {canManage && (
+          <button onClick={() => setIsAdding(true)} className="rounded bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
+            Add Student
+          </button>
+        )}
+      </div>
+      {offering && meta && (
+        <p className="mb-4 text-sm text-gray-500">
+          {meta.total} / {offering.capacity} enrolled
+          {meta.total >= offering.capacity && <span className="ml-2 font-medium text-amber-600">Full</span>}
+        </p>
+      )}
       {offering && (
         <p className="mb-4 text-sm text-gray-500">
           {offering.academic_term.academic_year} ({offering.academic_term.semester}) · {offering.schedule}
         </p>
       )}
 
+
+    {isAdding ? (
+      <EnrollmentForm
+        fixedOffering={{ id: offeringId, label: offering ? `${offering.course.course_code} — Section ${offering.section}` : `Offering #${offeringId}` }}
+        onSubmit={handleAddStudent}
+        onCancel={() => setIsAdding(false)}
+      />
+    ) : (
       <div className="rounded-lg border border-gray-200 bg-white">
         {isLoading ? (
           <p className="p-6 text-sm text-gray-500">Loading…</p>
@@ -98,6 +132,7 @@ export default function CourseOfferingStudentsPage() {
           <Pagination currentPage={meta.current_page} lastPage={meta.last_page} total={meta.total} perPage={meta.per_page} onPageChange={setPage} />
         )}
       </div>
+    )}
     </div>
   )
 }

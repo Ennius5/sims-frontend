@@ -51,10 +51,11 @@ export function CourseForm({ initialData, onSubmit, onCancel }: CourseFormProps)
       )}
 
       <div className="mb-4">
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="course_code" className="mb-1 block text-sm font-medium text-gray-700">
           Course Code <span className="text-red-500">*</span>
         </label>
         <input
+          id="course_code"
           required
           value={form.course_code}
           onChange={(e) => setForm((f) => ({ ...f, course_code: e.target.value }))}
@@ -66,10 +67,11 @@ export function CourseForm({ initialData, onSubmit, onCancel }: CourseFormProps)
       </div>
 
       <div className="mb-4">
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="course_title" className="mb-1 block text-sm font-medium text-gray-700">
           Course Title <span className="text-red-500">*</span>
         </label>
         <input
+          id = "course_title"
           required
           value={form.course_title}
           onChange={(e) => setForm((f) => ({ ...f, course_title: e.target.value }))}
@@ -81,8 +83,9 @@ export function CourseForm({ initialData, onSubmit, onCancel }: CourseFormProps)
       </div>
 
       <div className="mb-4">
-        <label className="mb-1 block text-sm font-medium text-gray-700">Description</label>
+        <label htmlFor="description" className="mb-1 block text-sm font-medium text-gray-700">Description</label>
         <textarea
+          id = "description"
           value={form.description}
           onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
           className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
@@ -94,10 +97,11 @@ export function CourseForm({ initialData, onSubmit, onCancel }: CourseFormProps)
       </div>
 
       <div className="mb-4">
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="units" className="mb-1 block text-sm font-medium text-gray-700">
           Units <span className="text-red-500">*</span>
         </label>
         <input
+          id = "units" 
           type="number"
           min={1}
           max={10}
@@ -112,8 +116,9 @@ export function CourseForm({ initialData, onSubmit, onCancel }: CourseFormProps)
       </div>
 
       <div className="mb-6">
-        <label className="mb-1 block text-sm font-medium text-gray-700">Status</label>
+        <label htmlFor= "status" className="mb-1 block text-sm font-medium text-gray-700">Status</label>
         <select
+          id= "status"
           value={form.status}
           onChange={(e) => setForm((f) => ({ ...f, status: e.target.value as CourseFormData['status'] }))}
           className="w-full rounded border border-gray-300 px-3 py-2 text-sm"

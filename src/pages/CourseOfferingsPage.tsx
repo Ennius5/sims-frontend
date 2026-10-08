@@ -160,7 +160,12 @@ useEffect(() => {
                     <td className="px-4 py-2">{offering.section}</td>
                     <td className="px-4 py-2">{offering.schedule}</td>
                     <td className="px-4 py-2">{offering.instructor?.name ?? '—'}</td>
-                    <td className="px-4 py-2">{offering.capacity}</td>
+                    <td className="px-4 py-2">
+                      {offering.enrolled_count} / {offering.capacity}
+                      {offering.enrolled_count >= offering.capacity && (
+                        <span className="ml-1 text-xs font-medium text-amber-600">Full</span>
+                      )}
+                    </td>
                     <td className="px-4 py-2">
                       <span className={`rounded-full px-2 py-0.5 text-xs ${
                         offering.status === 'OPEN' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'

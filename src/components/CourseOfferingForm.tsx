@@ -94,10 +94,11 @@ export function CourseOfferingForm({ initialData, onSubmit, onCancel }: CourseOf
 
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="course_id" className="mb-1 block text-sm font-medium text-gray-700">
             Course <span className="text-red-500">*</span>
           </label>
           <SearchableSelect
+            id="course_id"
             options={courses.map((c) => ({ id: c.id, label: `${c.course_code} — ${c.course_title}` }))}
             value={form.course_id ? String(form.course_id) : ''}
             onChange={(id) => setForm((f) => ({ ...f, course_id: id ? Number(id) : 0 }))}
@@ -107,10 +108,11 @@ export function CourseOfferingForm({ initialData, onSubmit, onCancel }: CourseOf
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="academic_term_id" className="mb-1 block text-sm font-medium text-gray-700">
             Academic Term <span className="text-red-500">*</span>
           </label>
           <SearchableSelect
+            id="academic_term_id"
             options={terms.map((t) => ({ id: t.id, label: `${t.academic_year} — ${t.semester}` }))}
             value={form.academic_term_id ? String(form.academic_term_id) : ''}
             onChange={(id) => setForm((f) => ({ ...f, academic_term_id: id ? Number(id) : 0 }))}
@@ -121,8 +123,9 @@ export function CourseOfferingForm({ initialData, onSubmit, onCancel }: CourseOf
       </div>
 
       <div className="mb-4">
-        <label className="mb-1 block text-sm font-medium text-gray-700">Instructor</label>
+        <label htmlFor="instructor_id" className="mb-1 block text-sm font-medium text-gray-700">Instructor</label>
         <SearchableSelect
+          id="instructor_id"
           options={instructors.map((i) => ({ id: i.id, label: i.name }))}
           value={form.instructor_id ? String(form.instructor_id) : ''}
           onChange={(id) => setForm((f) => ({ ...f, instructor_id: id ? Number(id) : null }))}
@@ -133,10 +136,11 @@ export function CourseOfferingForm({ initialData, onSubmit, onCancel }: CourseOf
 
       <div className="mb-4 grid grid-cols-3 gap-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="section" className="mb-1 block text-sm font-medium text-gray-700">
             Section <span className="text-red-500">*</span>
           </label>
           <input
+            id="section"
             required
             value={form.section}
             onChange={(e) => setForm((f) => ({ ...f, section: e.target.value }))}
@@ -145,8 +149,9 @@ export function CourseOfferingForm({ initialData, onSubmit, onCancel }: CourseOf
           {fieldErrors.section && <p className="mt-1 text-sm text-red-600">{fieldErrors.section[0]}</p>}
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Room</label>
+          <label htmlFor="room" className="mb-1 block text-sm font-medium text-gray-700">Room</label>
           <input
+            id="room"
             value={form.room}
             onChange={(e) => setForm((f) => ({ ...f, room: e.target.value }))}
             className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
@@ -154,10 +159,11 @@ export function CourseOfferingForm({ initialData, onSubmit, onCancel }: CourseOf
           {fieldErrors.room && <p className="mt-1 text-sm text-red-600">{fieldErrors.room[0]}</p>}
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="capacity" className="mb-1 block text-sm font-medium text-gray-700">
             Capacity <span className="text-red-500">*</span>
           </label>
           <input
+            id="capacity"
             type="number"
             min={1}
             required

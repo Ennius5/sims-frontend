@@ -3,6 +3,7 @@ import * as academicTermService from '../services/academicTermService'
 import type { AcademicTerm, AcademicTermFormData } from '../types/academicTerm'
 import { Pagination } from '../components/Pagination'
 import { AcademicTermForm } from '../components/AcademicTermForm'
+import { formatDate } from '../utils/formatDate'
 
 export default function AcademicTermsPage() {
   const [terms, setTerms] = useState<AcademicTerm[]>([])
@@ -128,8 +129,8 @@ export default function AcademicTermsPage() {
                   <tr key={term.id} className="border-b border-gray-100 last:border-0">
                     <td className="px-4 py-2">{term.academic_year}</td>
                     <td className="px-4 py-2">{term.semester}</td>
-                    <td className="px-4 py-2">{term.start_date}</td>
-                    <td className="px-4 py-2">{term.end_date}</td>
+                    <td className="px-4 py-2">{formatDate(term.start_date)}</td>
+                    <td className="px-4 py-2">{formatDate(term.end_date)}</td>
                     <td className="px-4 py-2">
                       <span
                         className={`rounded-full px-2 py-0.5 text-xs ${

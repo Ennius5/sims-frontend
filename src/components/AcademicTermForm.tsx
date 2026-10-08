@@ -61,10 +61,11 @@ export function AcademicTermForm({ initialData, onSubmit, onCancel }: AcademicTe
       )}
 
       <div className="mb-4">
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="academic_year" className="mb-1 block text-sm font-medium text-gray-700">
           Academic Year <span className="text-red-500">*</span>
         </label>
         <input
+          id = "academic_year"
           required
           placeholder="2026-2027"
           value={form.academic_year}
@@ -77,10 +78,11 @@ export function AcademicTermForm({ initialData, onSubmit, onCancel }: AcademicTe
       </div>
 
       <div className="mb-4">
-        <label className="mb-1 block text-sm font-medium text-gray-700">
+        <label htmlFor="semester" className="mb-1 block text-sm font-medium text-gray-700">
           Semester <span className="text-red-500">*</span>
         </label>
         <select
+          id = "semester"
           value={form.semester}
           onChange={(e) => setForm((f) => ({ ...f, semester: e.target.value }))}
           className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
@@ -96,10 +98,11 @@ export function AcademicTermForm({ initialData, onSubmit, onCancel }: AcademicTe
 
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor = "start_date"className="mb-1 block text-sm font-medium text-gray-700">
             Start Date <span className="text-red-500">*</span>
           </label>
           <input
+            id = "start_date"
             type="date"
             required
             value={form.start_date}
@@ -111,10 +114,11 @@ export function AcademicTermForm({ initialData, onSubmit, onCancel }: AcademicTe
           )}
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor= "end_date"className="mb-1 block text-sm font-medium text-gray-700">
             End Date <span className="text-red-500">*</span>
           </label>
           <input
+            id = "end_date"
             type="date"
             required
             value={form.end_date}
@@ -128,8 +132,9 @@ export function AcademicTermForm({ initialData, onSubmit, onCancel }: AcademicTe
       </div>
 
       <div className="mb-6">
-        <label className="mb-1 block text-sm font-medium text-gray-700">Status</label>
+        <label htmlFor= "status" className="mb-1 block text-sm font-medium text-gray-700">Status</label>
         <select
+          id = "status"
           value={form.status}
           onChange={(e) => setForm((f) => ({ ...f, status: e.target.value as AcademicTermFormData['status'] }))}
           className="w-full rounded border border-gray-300 px-3 py-2 text-sm"

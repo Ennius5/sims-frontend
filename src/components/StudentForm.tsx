@@ -70,6 +70,7 @@ export function StudentForm({ initialData, onSubmit, onCancel }: StudentFormProp
   if (isLoadingOptions) {
     return <div className="rounded-lg border border-gray-200 bg-white p-6 text-sm text-gray-500">Loading form options…</div>
   }
+  const linkedAccount = form.user_id ? studentAccounts.find((account) => account.id === form.user_id) : null
 
   return (
     <form onSubmit={handleSubmit} className="rounded-lg border border-gray-200 bg-white p-6">
@@ -85,10 +86,11 @@ export function StudentForm({ initialData, onSubmit, onCancel }: StudentFormProp
 
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor= "student_number" className="mb-1 block text-sm font-medium text-gray-700">
             Student Number <span className="text-red-500">*</span>
           </label>
           <input
+            id="student_number"
             required
             value={form.student_number}
             onChange={(e) => setForm((f) => ({ ...f, student_number: e.target.value }))}
@@ -97,10 +99,11 @@ export function StudentForm({ initialData, onSubmit, onCancel }: StudentFormProp
           {fieldErrors.student_number && <p className="mt-1 text-sm text-red-600">{fieldErrors.student_number[0]}</p>}
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
             Email <span className="text-red-500">*</span>
           </label>
           <input
+            id="email"
             type="email"
             required
             value={form.email}
@@ -113,10 +116,11 @@ export function StudentForm({ initialData, onSubmit, onCancel }: StudentFormProp
 
       <div className="mb-4 grid grid-cols-3 gap-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="first_name" className="mb-1 block text-sm font-medium text-gray-700">
             First Name <span className="text-red-500">*</span>
           </label>
           <input
+            id="first_name"
             required
             value={form.first_name}
             onChange={(e) => setForm((f) => ({ ...f, first_name: e.target.value }))}
@@ -125,18 +129,20 @@ export function StudentForm({ initialData, onSubmit, onCancel }: StudentFormProp
           {fieldErrors.first_name && <p className="mt-1 text-sm text-red-600">{fieldErrors.first_name[0]}</p>}
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Middle Name</label>
+          <label htmlFor="middle_name" className="mb-1 block text-sm font-medium text-gray-700">Middle Name</label>
           <input
+            id="middle_name"
             value={form.middle_name}
             onChange={(e) => setForm((f) => ({ ...f, middle_name: e.target.value }))}
             className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="last_name" className="mb-1 block text-sm font-medium text-gray-700">
             Last Name <span className="text-red-500">*</span>
           </label>
           <input
+            id="last_name"
             required
             value={form.last_name}
             onChange={(e) => setForm((f) => ({ ...f, last_name: e.target.value }))}
@@ -148,8 +154,9 @@ export function StudentForm({ initialData, onSubmit, onCancel }: StudentFormProp
 
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Suffix</label>
+          <label htmlFor="suffix" className="mb-1 block text-sm font-medium text-gray-700">Suffix</label>
           <input
+            id="suffix"
             placeholder="Jr., III, etc."
             value={form.suffix}
             onChange={(e) => setForm((f) => ({ ...f, suffix: e.target.value }))}
@@ -157,8 +164,9 @@ export function StudentForm({ initialData, onSubmit, onCancel }: StudentFormProp
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Birth Date</label>
+          <label htmlFor= "birth_date"className="mb-1 block text-sm font-medium text-gray-700">Birth Date</label>
           <input
+            id= "birth_date"
             type="date"
             value={form.birth_date}
             onChange={(e) => setForm((f) => ({ ...f, birth_date: e.target.value }))}
@@ -170,16 +178,18 @@ export function StudentForm({ initialData, onSubmit, onCancel }: StudentFormProp
 
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Contact Number</label>
+          <label htmlFor="contact_number" className="mb-1 block text-sm font-medium text-gray-700">Contact Number</label>
           <input
+            id="contact_number"
             value={form.contact_number}
             onChange={(e) => setForm((f) => ({ ...f, contact_number: e.target.value }))}
             className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Address</label>
+          <label htmlFor="address" className="mb-1 block text-sm font-medium text-gray-700">Address</label>
           <input
+            id="address"
             value={form.address}
             onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
             className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
@@ -189,10 +199,11 @@ export function StudentForm({ initialData, onSubmit, onCancel }: StudentFormProp
 
       <div className="mb-6 grid grid-cols-3 gap-4">
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="program_id" className="mb-1 block text-sm font-medium text-gray-700">
             Program <span className="text-red-500">*</span>
           </label>
           <select
+            id="program_id"
             required
             value={form.program_id || ''}
             onChange={(e) => setForm((f) => ({ ...f, program_id: Number(e.target.value) }))}
@@ -206,10 +217,11 @@ export function StudentForm({ initialData, onSubmit, onCancel }: StudentFormProp
           {fieldErrors.program_id && <p className="mt-1 text-sm text-red-600">{fieldErrors.program_id[0]}</p>}
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">
+          <label htmlFor="year_level" className="mb-1 block text-sm font-medium text-gray-700">
             Year Level <span className="text-red-500">*</span>
           </label>
           <input
+            id="year_level"
             type="number"
             min={1}
             max={6}
@@ -221,8 +233,9 @@ export function StudentForm({ initialData, onSubmit, onCancel }: StudentFormProp
           {fieldErrors.year_level && <p className="mt-1 text-sm text-red-600">{fieldErrors.year_level[0]}</p>}
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-gray-700">Status</label>
+          <label htmlFor="status" className="mb-1 block text-sm font-medium text-gray-700">Status</label>
           <select
+            id="status"
             value={form.status}
             onChange={(e) => setForm((f) => ({ ...f, status: e.target.value as StudentFormData['status'] }))}
             className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
@@ -233,12 +246,17 @@ export function StudentForm({ initialData, onSubmit, onCancel }: StudentFormProp
         </div>
 
         <div className="mb-6">
-          <label className="mb-1 block text-sm font-medium text-gray-700">Linked User Account</label>
+          <label htmlFor="user_id" className="mb-1 block text-sm font-medium text-gray-700">Linked User Account</label>
           <SearchableSelect
+            id="user_id"
             options={studentAccounts.map((account) => ({ id: account.id, label: `${account.name} — ${account.email}` }))}
             value={form.user_id ? String(form.user_id) : ''}
             onChange={(id) => setForm((f) => ({ ...f, user_id: id ? Number(id) : null }))}
-            placeholder="Search user account…"
+            placeholder={
+                          linkedAccount
+                            ? `${linkedAccount.name} — ${linkedAccount.email}`
+                            : 'Search user account…'
+                        }
           />
           <p className="mt-1 text-xs text-gray-500">
             Lets this student log in and view their own record, enrollments, and grades.

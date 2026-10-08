@@ -9,10 +9,13 @@ interface PaginationProps {
 export function Pagination({ currentPage, lastPage, total, perPage, onPageChange }: PaginationProps) {
   if (lastPage <= 1) return null
 
+  const start = (currentPage - 1) * perPage + 1
+  const end = Math.min(currentPage * perPage, total)
+
   return (
     <div className="flex items-center justify-between border-t border-gray-200 px-4 py-3">
       <p className="text-sm text-gray-600">
-        Page {currentPage} of {lastPage} ({total} total)
+        Showing {start}–{end} of {total} (page {currentPage} of {lastPage})
       </p>
       <div className="flex gap-2">
         <button
